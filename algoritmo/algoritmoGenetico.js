@@ -1,6 +1,7 @@
 import { inicializarPoblacion, evaluarPoblacion, seleccionarIndividuos, cruzar, mutar, reemplazarPoblacion } from './poblacion.js';
 import { actualizarGrafico } from '../componentes/grafico.js';
-import { actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
+import {  actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
+import { dibujarFiguras } from '../componentes/lienzo.js'; // Agrega la importación de la función para dibujar las figuras
 
 export function iniciarAlgoritmoGenetico() {
     // Leer los parámetros
@@ -26,7 +27,9 @@ export function iniciarAlgoritmoGenetico() {
 
         actualizarGrafico(generacion, poblacion);
         actualizarTemporizador(generacion);
+
+        dibujarFiguras(poblacion); // Dibuja las figuras en el lienzo genético
     }
 
-    detenerTemporizador();
+    detenerTemporizador(); // Detiene el temporizador al finalizar el algoritmo
 }
