@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+.leftSide { 
+    grid-area: leftSide;
+    width: 350px;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    background-color: #ebf4fa;
+    border: 5px solid #ebf4fa;
+}
+
+#mainContent {
+    float: left;
+    width: 70%; /* Ajusta el ancho según tus necesidades */
+    padding: 20px;
+}
+
+#imagenContenedor {
+    margin-bottom: 20px;
+}
+
+canvas {
+    display: block;
+    margin-bottom: 20px;
+}
