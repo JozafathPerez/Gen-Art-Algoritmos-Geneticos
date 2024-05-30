@@ -1,4 +1,6 @@
-let graficoFitness;
+// grafico.js
+
+let graficoFitness; // Define la variable graficoFitness fuera de las funciones para que sea accesible en todo el módulo
 
 export function inicializarGrafico() {
     const ctx = document.getElementById('graficoFitness').getContext('2d');

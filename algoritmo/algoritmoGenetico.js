@@ -2,11 +2,11 @@
 
 import { inicializarPoblacion, evaluarPoblacion, seleccionarIndividuos, cruzar, mutar, reemplazarPoblacion } from './poblacion.js';
 import { actualizarGrafico } from '../componentes/grafico.js';
-import {  actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
-import { dibujarFiguras } from '../componentes/lienzo.js'; // Agrega la importación de la función para dibujar las figuras
+import { actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
+import { dibujarFiguras } from '../componentes/lienzo.js';
+import { calcularFitnessPromedio, calcularMejorFitness} from './funcionFitness.js';
 
 export function iniciarAlgoritmoGenetico() {
-    // Leer los parámetros
     const generaciones = parseInt(document.getElementById('generaciones').value);
     const tamanoPoblacion = parseInt(document.getElementById('tamanoPoblacion').value);
     const tasaSeleccion = parseInt(document.getElementById('seleccion').value) / 100;
@@ -27,11 +27,15 @@ export function iniciarAlgoritmoGenetico() {
         mutar(descendencia, tasaMutacion);
         poblacion = reemplazarPoblacion(poblacion, descendencia);
 
-        actualizarGrafico(generacion, poblacion);
+        // Calcular fitness promedio y mejor fitness
+        const fitnessPromedio = calcularFitnessPromedio(poblacion);
+        const mejorFitness = calcularMejorFitness(poblacion);
+
+        actualizarGrafico(generacion, fitnessPromedio, mejorFitness);
         actualizarTemporizador(generacion);
 
-        dibujarFiguras(poblacion); // Dibuja las figuras en el lienzo genético
+        dibujarFiguras(poblacion);
     }
 
-    detenerTemporizador(); // Detiene el temporizador al finalizar el algoritmo
+    detenerTemporizador();
 }
