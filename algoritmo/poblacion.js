@@ -66,12 +66,42 @@ export function reemplazarPoblacion(poblacion, descendencia) {
 
 // Función auxiliar para crear individuos aleatorios
 export function crearIndividuoAleatorio() {
-    const individuo = {
-        x: Math.random() * 800, // Ejemplo: coordenada x aleatoria dentro de un lienzo de 800x800
-        y: Math.random() * 800, // Ejemplo: coordenada y aleatoria dentro de un lienzo de 800x800
-        radio: Math.random() * 50 + 20, // Ejemplo: radio aleatorio entre 20 y 70
-        color: '#' + Math.floor(Math.random() * 16777215).toString(16) // Ejemplo: color aleatorio en hexadecimal
-    };
+    const tiposFiguras = ['circulo', 'triangulo', 'cuadrado'];
+    const tipoAleatorio = tiposFiguras[Math.floor(Math.random() * tiposFiguras.length)];
+
+    let individuo;
+    switch (tipoAleatorio) {
+        case 'circulo':
+            individuo = {
+                tipo: 'circulo',
+                x: Math.random() * 800,
+                y: Math.random() * 800,
+                radio: Math.random() * 50 + 20,
+                color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+            };
+            break;
+        case 'triangulo':
+            individuo = {
+                tipo: 'triangulo',
+                x: Math.random() * 800,
+                y: Math.random() * 800,
+                lado: Math.random() * 50 + 20,
+                color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+            };
+            break;
+        case 'cuadrado':
+            individuo = {
+                tipo: 'cuadrado',
+                x: Math.random() * 800,
+                y: Math.random() * 800,
+                lado: Math.random() * 50 + 20,
+                color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+            };
+            break;
+        default:
+            console.log('Tipo de figura no reconocido:', tipoAleatorio);
+    }
+
     return individuo;
 }
 

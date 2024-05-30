@@ -1,3 +1,5 @@
+// algoritmoGenetico.js
+
 import { inicializarPoblacion, evaluarPoblacion, seleccionarIndividuos, cruzar, mutar, reemplazarPoblacion } from './poblacion.js';
 import { actualizarGrafico } from '../componentes/grafico.js';
 import {  actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';

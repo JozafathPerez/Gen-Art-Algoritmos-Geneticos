@@ -5,16 +5,6 @@
     font-family: Arial, Helvetica, sans-serif;
 } 
 
-.leftSide { 
-    grid-area: leftSide;
-    width: 350px;
-    display: flex;
-    align-items: top;
-    justify-content: center;
-    background-color: #ebf4fa;
-    border: 5px solid #ebf4fa;
-}
-
 #mainContent {
     float: left;
     width: 70%; /* Ajusta el ancho según tus necesidades */
