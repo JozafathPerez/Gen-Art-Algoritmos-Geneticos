@@ -1,10 +1,9 @@
-// algoritmoGenetico.js
+// Archivo algoritmoGenetico.js
 
-import { inicializarPoblacion, evaluarPoblacion, seleccionarIndividuos, cruzar, mutar, reemplazarPoblacion } from './poblacion.js';
+import { Poblacion } from './poblacion.js';
 import { actualizarGrafico } from '../componentes/grafico.js';
 import { actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
-import { dibujarFiguras } from '../componentes/lienzo.js';
-import { calcularFitnessPromedio, calcularMejorFitness} from './funcionFitness.js';
+import { dibujarFiguras, obtenerImagenData } from '../componentes/lienzo.js';
 
 export function iniciarAlgoritmoGenetico() {
     const generaciones = parseInt(document.getElementById('generaciones').value);
@@ -18,23 +17,26 @@ export function iniciarAlgoritmoGenetico() {
         return;
     }
 
-    let poblacion = inicializarPoblacion(tamanoPoblacion);
+    const lienzoImagen = document.getElementById('lienzoImagen').getContext('2d');
+    const imagenData = lienzoImagen.getImageData(0, 0, lienzoImagen.canvas.width, lienzoImagen.canvas.height);
+
+    const poblacion = new Poblacion(tamanoPoblacion);
 
     for (let generacion = 0; generacion < generaciones; generacion++) {
-        evaluarPoblacion(poblacion);
-        let seleccionados = seleccionarIndividuos(poblacion, tasaSeleccion);
-        let descendencia = cruzar(seleccionados, tasaCruce);
-        mutar(descendencia, tasaMutacion);
-        poblacion = reemplazarPoblacion(poblacion, descendencia);
+        console.log(generacion);
+        poblacion.evaluar(imagenData);
+        const seleccionados = poblacion.seleccionar(tasaSeleccion);
+        const descendencia = poblacion.cruzar(seleccionados, tasaCruce);
+        poblacion.mutar(descendencia, tasaMutacion);
+        poblacion.reemplazar(descendencia);
 
-        // Calcular fitness promedio y mejor fitness
-        const fitnessPromedio = calcularFitnessPromedio(poblacion);
-        const mejorFitness = calcularMejorFitness(poblacion);
+        const fitnessPromedio = poblacion.calcularFitnessPromedio();
+        const mejorFitness = poblacion.calcularMejorFitness();
 
         actualizarGrafico(generacion, fitnessPromedio, mejorFitness);
         actualizarTemporizador(generacion);
 
-        dibujarFiguras(poblacion);
+        dibujarFiguras(poblacion.individuos);
     }
 
     detenerTemporizador();

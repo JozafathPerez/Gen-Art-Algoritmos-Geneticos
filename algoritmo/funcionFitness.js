@@ -1,4 +1,5 @@
-// funcionFitness.js
+// Archivo funcionFitness.js
+
 
 export function calcularFitnessPromedio(poblacion) {
     let sumaFitness = 0;

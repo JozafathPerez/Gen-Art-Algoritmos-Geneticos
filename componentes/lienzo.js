@@ -1,26 +1,41 @@
-// lienzo.js
-
 export function inicializarLienzo() {
-    // Inicialización del lienzo para la imagen y el lienzo genético
     const lienzoImagen = document.getElementById('lienzoImagen');
     const lienzoGenetico = document.getElementById('lienzoGenetico');
-    // Configuración de los lienzos, tamaño, contexto, etc.
+    const ctxImagen = lienzoImagen.getContext('2d');
+    const ctxGenetico = lienzoGenetico.getContext('2d');
+
+    // Agregar un event listener para cargar una imagen en el lienzo de imagen
+    lienzoImagen.addEventListener('change', (event) => {
+        const archivo = event.target.files[0];
+        if (archivo) {
+            const lector = new FileReader();
+            lector.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    ctxImagen.clearRect(0, 0, lienzoImagen.width, lienzoImagen.height);
+                    ctxImagen.drawImage(img, 0, 0, lienzoImagen.width, lienzoImagen.height);
+                }
+                img.src = e.target.result;
+            }
+            lector.readAsDataURL(archivo);
+        }
+    });
+
+    // Agregar cualquier otra lógica necesaria para el lienzo genético aquí
 }
 
-// Importa el contexto del lienzo genético desde tu archivo HTML
+
+export function obtenerImagenData() {
+    const lienzoImagen = document.getElementById('lienzoImagen').getContext('2d');
+    return lienzoImagen.getImageData(0, 0, lienzoImagen.canvas.width, lienzoImagen.canvas.height);
+}
+
 const lienzoGenetico = document.getElementById('lienzoGenetico').getContext('2d');
 
-// Función para dibujar las figuras en el lienzo genético
-// lienzo.js
-
-// Función para dibujar las figuras en el lienzo genético
 export function dibujarFiguras(individuos) {
-    // Borra el contenido anterior del lienzo
     lienzoGenetico.clearRect(0, 0, lienzoGenetico.canvas.width, lienzoGenetico.canvas.height);
 
-    // Itera sobre los individuos y dibuja sus figuras en el lienzo
     individuos.forEach(individuo => {
-        // Comprueba el tipo de figura del individuo y dibújala en consecuencia
         switch (individuo.tipo) {
             case 'circulo':
                 dibujarCirculo(individuo);
@@ -37,29 +52,25 @@ export function dibujarFiguras(individuos) {
     });
 }
 
-// Función auxiliar para dibujar un círculo
 function dibujarCirculo(individuo) {
     lienzoGenetico.beginPath();
-    lienzoGenetico.arc(individuo.x, individuo.y, individuo.radio, 0, 2 * Math.PI);
+    lienzoGenetico.arc(individuo.x, individuo.y, individuo.tamano, 0, 2 * Math.PI);
     lienzoGenetico.fillStyle = individuo.color;
     lienzoGenetico.fill();
     lienzoGenetico.closePath();
 }
 
-// Función auxiliar para dibujar un triángulo
 function dibujarTriangulo(individuo) {
     lienzoGenetico.beginPath();
-    lienzoGenetico.moveTo(individuo.x, individuo.y - individuo.lado / Math.sqrt(3));
-    lienzoGenetico.lineTo(individuo.x + individuo.lado / 2, individuo.y + individuo.lado / (2 * Math.sqrt(3)));
-    lienzoGenetico.lineTo(individuo.x - individuo.lado / 2, individuo.y + individuo.lado / (2 * Math.sqrt(3)));
+    lienzoGenetico.moveTo(individuo.x, individuo.y - individuo.tamano / Math.sqrt(3));
+    lienzoGenetico.lineTo(individuo.x + individuo.tamano / 2, individuo.y + individuo.tamano / (2 * Math.sqrt(3)));
+    lienzoGenetico.lineTo(individuo.x - individuo.tamano / 2, individuo.y + individuo.tamano / (2 * Math.sqrt(3)));
     lienzoGenetico.closePath();
     lienzoGenetico.fillStyle = individuo.color;
     lienzoGenetico.fill();
 }
 
-// Función auxiliar para dibujar un cuadrado
 function dibujarCuadrado(individuo) {
     lienzoGenetico.fillStyle = individuo.color;
-    lienzoGenetico.fillRect(individuo.x - individuo.lado / 2, individuo.y - individuo.lado / 2, individuo.lado, individuo.lado);
+    lienzoGenetico.fillRect(individuo.x - individuo.tamano / 2, individuo.y - individuo.tamano / 2, individuo.tamano, individuo.tamano);
 }
-
