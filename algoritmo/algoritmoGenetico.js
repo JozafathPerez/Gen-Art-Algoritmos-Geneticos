@@ -11,6 +11,22 @@ export function iniciarAlgoritmoGenetico() {
     const tasaSeleccion = parseInt(document.getElementById('seleccion').value) / 100;
     const tasaMutacion = parseInt(document.getElementById('mutacion').value) / 100;
     const tasaCruce = parseInt(document.getElementById('cruce').value) / 100;
+    const lienzo = document.getElementById('lienzoImagen');
+    const visibilidad = getComputedStyle(lienzo);
+    
+    if (visibilidad.visibility === 'hidden') {
+        alert('Debes de cargar una imagen para la generación.');
+        return;
+    }
+
+    if (!generaciones) {
+        alert("Por favor, rellena el campo de 'Generaciones'.");
+        return;
+    }
+    if (!tamanoPoblacion) {
+        alert("Por favor, rellena ambos campos de 'Tamaño de la población'.");
+        return;
+    }
 
     if (tasaSeleccion + tasaMutacion + tasaCruce !== 1) {
         alert('Los porcentajes de selección, mutación y cruce deben sumar 100%.');

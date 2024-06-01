@@ -25,6 +25,11 @@ export function inicializarLienzo() {
 }
 
 
+
+
+
+
+
 export function obtenerImagenData() {
     const lienzoImagen = document.getElementById('lienzoImagen').getContext('2d');
     return lienzoImagen.getImageData(0, 0, lienzoImagen.canvas.width, lienzoImagen.canvas.height);
