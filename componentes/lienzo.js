@@ -1,3 +1,5 @@
+// Archivo de lienzo
+
 export function inicializarLienzo() {
     const lienzoImagen = document.getElementById('lienzoImagen');
     const lienzoGenetico = document.getElementById('lienzoGenetico');
