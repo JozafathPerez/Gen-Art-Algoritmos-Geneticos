@@ -37,7 +37,7 @@ export class Poblacion {
         }
         return descendencia;
     }
-
+ 
     mutar(descendencia, tasaMutacion) {
         descendencia.forEach(individuo => {
             if (Math.random() < tasaMutacion) {

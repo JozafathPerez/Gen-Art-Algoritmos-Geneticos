@@ -8,12 +8,10 @@ export class Individuo {
         this.tamano = tamano; // Usar 'tamano' en lugar de 'radio' o 'lado'
         this.color = color;
         this.fitness = 0;
-    }
+    } 
 
     calcularFitness(imagenData) {
         const lienzoGenetico = document.createElement('canvas').getContext('2d');
-        lienzoGenetico.canvas.width = 512;
-        lienzoGenetico.canvas.height = 512;
         lienzoGenetico.clearRect(0, 0, lienzoGenetico.canvas.width, lienzoGenetico.canvas.height);
 
         switch (this.tipo) {
