@@ -11,11 +11,13 @@ export class Individuo {
     }
 
     calcularFitness(imagenData) {
+        // Crear un lienzo temporal
         const lienzoGenetico = document.createElement('canvas').getContext('2d');
-        lienzoGenetico.canvas.width = 512;
-        lienzoGenetico.canvas.height = 512;
+        lienzoGenetico.canvas.width = imagenData.width;   //Tener mismo ancho que la imagen original
+        lienzoGenetico.canvas.height = imagenData.height; //Tener misma altuta que la imagen original
         lienzoGenetico.clearRect(0, 0, lienzoGenetico.canvas.width, lienzoGenetico.canvas.height);
 
+        // Dibujar la figura del individuo en el lienzo temporal
         switch (this.tipo) {
             case 'circulo':
                 lienzoGenetico.beginPath();
@@ -46,13 +48,27 @@ export class Individuo {
 
         // Comparar con los datos de la imagen de referencia
         let diff = 0;
-        for (let i = 0; i < imagenData.length; i += 4) {
-            diff += Math.abs(imagenData[i] - individuoData[i]);       // R
-            diff += Math.abs(imagenData[i + 1] - individuoData[i + 1]); // G
-            diff += Math.abs(imagenData[i + 2] - individuoData[i + 2]); // B
+        for (let i = 0; i < imagenData.data.length; i += 4) {
+            diff += Math.abs(imagenData.data[i] - individuoData[i]);       // R
+            diff += Math.abs(imagenData.data[i + 1] - individuoData[i + 1]); // G
+            diff += Math.abs(imagenData.data[i + 2] - individuoData[i + 2]); // B
+            /*console.log("R1",imagenData.data[i]);
+            console.log("G1",imagenData.data[i+1]);
+            console.log("B1",imagenData.data[i+2]);
+
+            console.log("R2",individuoData[i]);
+            console.log("G2",individuoData[i+1]);
+            console.log("B2",individuoData[i+2]);
+
+            console.log(diff);*/
         }
 
-        this.fitness = 1 / (diff + 1); // Fitness inversamente proporcional a la diferencia
+        this.fitness = 1 /(diff + 1);
+
+        // Para evitar fitness negativos
+        if (this.fitness < 0) {
+            this.fitness = 0;
+        }
     }
 
     static crearAleatorio() {
