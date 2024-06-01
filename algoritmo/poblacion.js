@@ -1,12 +1,10 @@
-// Archivo poblacion.js
-
-import { Individuo } from './individuo.js';
+import { Individuo, obtenerColorPromedio, ajustarColor} from './individuo.js';
 
 export class Poblacion {
-    constructor(tamano) {
+    constructor(tamano, imagenData) {
         this.individuos = [];
         for (let i = 0; i < tamano; i++) {
-            this.individuos.push(Individuo.crearAleatorio());
+            this.individuos.push(Individuo.crearAleatorio(imagenData));
         }
     }
 
@@ -31,7 +29,7 @@ export class Poblacion {
                 (padre.x + madre.x) / 2,
                 (padre.y + madre.y) / 2,
                 (padre.tamano + madre.tamano) / 2,
-                padre.color
+                mezclarColores(padre.color, madre.color)
             );
             descendencia.push(hijo);
         }
@@ -41,7 +39,8 @@ export class Poblacion {
     mutar(descendencia, tasaMutacion) {
         descendencia.forEach(individuo => {
             if (Math.random() < tasaMutacion) {
-                individuo.tamano += Math.random() * 10 - 5; // Ejemplo de mutación del tamaño
+                individuo.tamano += Math.random() * 10 - 5;
+                individuo.color = ajustarColor(obtenerColorPromedio({ data: [parseInt(individuo.color.slice(1, 3), 16), parseInt(individuo.color.slice(3, 5), 16), parseInt(individuo.color.slice(5, 7), 16)] }));
             }
         });
     }
@@ -73,4 +72,9 @@ export class Poblacion {
     }
 }
 
-
+function mezclarColores(color1, color2) {
+    const r = Math.floor((parseInt(color1.slice(1, 3), 16) + parseInt(color2.slice(1, 3), 16)) / 2);
+    const g = Math.floor((parseInt(color1.slice(3, 5), 16) + parseInt(color2.slice(3, 5), 16)) / 2);
+    const b = Math.floor((parseInt(color1.slice(5, 7), 16) + parseInt(color2.slice(5, 7), 16)) / 2);
+    return `rgb(${r}, ${g}, ${b})`;
+}

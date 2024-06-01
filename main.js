@@ -6,11 +6,11 @@ import { iniciarAlgoritmoGenetico } from './algoritmo/algoritmoGenetico.js';
 
 
 // Borrar esto al terminar
-document.getElementById('generaciones').value = 5;
+document.getElementById('generaciones').value = 100;
 document.getElementById('tamanoPoblacion').value = 150;
-document.getElementById('seleccion').value = 70;
-document.getElementById('mutacion').value = 10;
-document.getElementById('cruce').value = 20;
+document.getElementById('seleccion').value = 50;
+document.getElementById('mutacion').value = 25;
+document.getElementById('cruce').value = 25;
 
 document.addEventListener('DOMContentLoaded', () => {
     inicializarLienzo();
