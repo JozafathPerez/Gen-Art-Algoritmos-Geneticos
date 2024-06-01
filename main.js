@@ -6,7 +6,7 @@ import { iniciarAlgoritmoGenetico } from './algoritmo/algoritmoGenetico.js';
 
 
 // Borrar esto al terminar
-document.getElementById('generaciones').value = 5;
+document.getElementById('generaciones').value = 100;
 document.getElementById('tamanoPoblacion').value = 150;
 document.getElementById('seleccion').value = 70;
 document.getElementById('mutacion').value = 10;
