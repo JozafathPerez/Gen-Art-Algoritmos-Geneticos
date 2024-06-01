@@ -1,5 +1,7 @@
 // Archivo individuo.js
 
+const lienzoGenetico = document.getElementById('lienzoGenetico');
+
 export class Individuo {
     constructor(tipo, x, y, tamano, color) {
         this.tipo = tipo;
@@ -56,8 +58,8 @@ export class Individuo {
     static crearAleatorio() {
         const tiposFiguras = ['circulo', 'triangulo', 'cuadrado'];
         const tipoAleatorio = tiposFiguras[Math.floor(Math.random() * tiposFiguras.length)];
-        const x = Math.random() * 512;
-        const y = Math.random() * 512;
+        const x = Math.random() * lienzoGenetico.width;
+        const y = Math.random() * lienzoGenetico.height;
         const tamano = Math.random() * 50 + 20;
         const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
         return new Individuo(tipoAleatorio, x, y, tamano, color);
