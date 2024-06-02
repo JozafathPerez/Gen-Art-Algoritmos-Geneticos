@@ -5,7 +5,7 @@ import { actualizarGrafico } from '../componentes/grafico.js';
 import { actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
 import { dibujarFiguras, obtenerImagenData } from '../componentes/lienzo.js';
 
-export async function iniciarAlgoritmoGenetico() {
+export function iniciarAlgoritmoGenetico() {
     const generaciones = parseInt(document.getElementById('generaciones').value);
     const tamanoPoblacion = parseInt(document.getElementById('tamanoPoblacion').value);
     const tasaSeleccion = parseInt(document.getElementById('seleccion').value) / 100;
@@ -52,8 +52,6 @@ export async function iniciarAlgoritmoGenetico() {
         actualizarTemporizador(generacion);
 
         dibujarFiguras(poblacion.individuos);
-
-        await new Promise(resolve => setTimeout(resolve, 3000));
     }
 
     detenerTemporizador();
