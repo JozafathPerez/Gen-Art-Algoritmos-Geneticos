@@ -272,6 +272,18 @@ input[type="range"]::-moz-range-thumb {
     margin-left: 180px; 
 }
 
+#botonDetener {
+    padding: 10px;
+    color: #000;
+    border: 0;
+    outline: none;
+    background-color: #5256ad;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;   
+}
+
 /* Pie de página */
 .footer { 
     grid-area: footer; 

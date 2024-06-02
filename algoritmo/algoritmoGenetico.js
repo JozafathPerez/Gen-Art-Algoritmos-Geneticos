@@ -71,3 +71,7 @@ function mostrarDialog() {
         final.close();
     }
 }
+
+export function detenerTodo() {
+    location.reload();
+}

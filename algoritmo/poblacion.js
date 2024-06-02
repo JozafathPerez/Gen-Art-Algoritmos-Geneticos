@@ -54,7 +54,7 @@ export class Poblacion {
                 // Asegurar mutaciones significativas pero no destructivas
                 individuo.x += Math.random() * 20 - 10;
                 individuo.y += Math.random() * 20 - 10;
-                individuo.tamano += Math.random() * 10 - 5;
+                //individuo.tamano += Math.random() * 10 - 5;
                 individuo.color = ajustarColor(obtenerColorPromedio({
                     data: [
                         parseInt(individuo.color.slice(1, 3), 16),
