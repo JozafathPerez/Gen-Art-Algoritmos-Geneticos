@@ -4,6 +4,7 @@ let graficoFitness; // Define la variable graficoFitness fuera de las funciones 
 
 export function inicializarGrafico() {
     const ctx = document.getElementById('graficoFitness').getContext('2d');
+    ctx.clea
     graficoFitness = new Chart(ctx, {
         type: 'line',
         data: {
@@ -49,3 +50,11 @@ export function actualizarGrafico(generacion, fitnessPromedio, mejorFitness) {
     graficoFitness.data.datasets[1].data.push(mejorFitness);
     graficoFitness.update();
 }
+
+export function limpiarGrafico() {
+    graficoFitness.data.labels = [];
+    graficoFitness.data.datasets[0].data = [];
+    graficoFitness.data.datasets[1].data = [];
+    graficoFitness.update();
+}
+

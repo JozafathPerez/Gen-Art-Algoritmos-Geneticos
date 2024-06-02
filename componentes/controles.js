@@ -1,3 +1,5 @@
+import { limpiarGrafico } from '../componentes/grafico.js';
+
 let file;
 const dropArea = document.querySelector(".drop-area");
 const input = dropArea.querySelector("#entradaImagen");
@@ -20,6 +22,7 @@ export function inicializarControles() {
 function cargarImagen(archivo) {
     //console.log("aa");
     //const archivo = evento.target.files[0];
+    limpiarGrafico();
 
     const lector = new FileReader();
     lector.onload = function(e) {
@@ -30,6 +33,10 @@ function cargarImagen(archivo) {
             const lienzoImagen = document.getElementById('lienzoImagen');
             const lienzoGenetico = document.getElementById('lienzoGenetico');
             const contexto = lienzoImagen.getContext('2d');
+            const contextoLG = lienzoImagen.getContext('2d');
+
+            contexto.clearRect(0, 0, lienzoImagen.width, lienzoImagen.height);
+            contextoLG.clearRect(0, 0, lienzoGenetico.width, lienzoGenetico.height);
 
             // Obtener el tamaño original de la imagen
             const anchoOriginal = imagen.naturalWidth;

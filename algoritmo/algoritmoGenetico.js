@@ -57,4 +57,17 @@ export async function iniciarAlgoritmoGenetico() {
     }
 
     detenerTemporizador();
+    mostrarDialog();
+}
+
+function mostrarDialog() {
+    var final = document.getElementById("final");
+    var cerrar = document.getElementById("cerrar");
+    cerrar.addEventListener("click", cerrarD);
+
+    final.showModal();
+
+    function cerrarD() {
+        final.close();
+    }
 }
