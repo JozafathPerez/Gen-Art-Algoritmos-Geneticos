@@ -17,13 +17,13 @@ export class Poblacion {
         const cantidadSeleccion = Math.round(this.individuos.length * tasaSeleccion);
         return this.individuos.slice(0, cantidadSeleccion);
     }
-
+    
     cruzar(seleccionados, tasaCruce) {
         const descendencia = [];
         const cantidadCruce = Math.round(seleccionados.length * tasaCruce);
         for (let i = 0; i < cantidadCruce; i++) {
-            const padre = seleccionados[i % seleccionados.length];
-            const madre = seleccionados[(i + 1) % seleccionados.length];
+            const padre = seleccionados[Math.floor(Math.random() * seleccionados.length)];
+            const madre = seleccionados[Math.floor(Math.random() * seleccionados.length)];
             const hijo = new Individuo(
                 padre.tipo,
                 (padre.x + madre.x) / 2,
@@ -40,7 +40,14 @@ export class Poblacion {
         descendencia.forEach(individuo => {
             if (Math.random() < tasaMutacion) {
                 individuo.tamano += Math.random() * 10 - 5;
-                individuo.color = ajustarColor(obtenerColorPromedio({ data: [parseInt(individuo.color.slice(1, 3), 16), parseInt(individuo.color.slice(3, 5), 16), parseInt(individuo.color.slice(5, 7), 16)] }));
+                const colorPromedio = obtenerColorPromedio({
+                    data: [
+                        parseInt(individuo.color.match(/\d+/g)[0], 10), 
+                        parseInt(individuo.color.match(/\d+/g)[1], 10), 
+                        parseInt(individuo.color.match(/\d+/g)[2], 10)
+                    ]
+                });
+                individuo.color = ajustarColor(colorPromedio);
             }
         });
     }
@@ -73,8 +80,12 @@ export class Poblacion {
 }
 
 function mezclarColores(color1, color2) {
-    const r = Math.floor((parseInt(color1.slice(1, 3), 16) + parseInt(color2.slice(1, 3), 16)) / 2);
-    const g = Math.floor((parseInt(color1.slice(3, 5), 16) + parseInt(color2.slice(3, 5), 16)) / 2);
-    const b = Math.floor((parseInt(color1.slice(5, 7), 16) + parseInt(color2.slice(5, 7), 16)) / 2);
+    const color1Values = color1.match(/\d+/g).map(Number);
+    const color2Values = color2.match(/\d+/g).map(Number);
+
+    const r = Math.floor((color1Values[0] + color2Values[0]) / 2);
+    const g = Math.floor((color1Values[1] + color2Values[1]) / 2);
+    const b = Math.floor((color1Values[2] + color2Values[2]) / 2);
+
     return `rgb(${r}, ${g}, ${b})`;
 }

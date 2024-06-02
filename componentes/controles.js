@@ -54,7 +54,8 @@ function cargarImagen(archivo) {
             
             lienzoGenetico.width = nuevoAncho;
             lienzoGenetico.height = nuevoAlto;
-            
+            lienzoGenetico.style.backgroundColor = "white";
+
             // Dibujar la imagen en el lienzo con las nuevas dimensiones
             contexto.drawImage(imagen, 0, 0, nuevoAncho, nuevoAlto);
 

@@ -73,6 +73,7 @@ export function obtenerColorPromedio(imagenData) {
         totalG += imagenData.data[i + 1];
         totalB += imagenData.data[i + 2];
     }
+
     return {
         r: Math.floor(totalR / totalPixels),
         g: Math.floor(totalG / totalPixels),
@@ -81,8 +82,9 @@ export function obtenerColorPromedio(imagenData) {
 }
 
 export function ajustarColor(colorPromedio) {
-    const r = Math.min(255, Math.max(0, colorPromedio.r + Math.floor(Math.random() * 40 - 20)));
-    const g = Math.min(255, Math.max(0, colorPromedio.g + Math.floor(Math.random() * 40 - 20)));
-    const b = Math.min(255, Math.max(0, colorPromedio.b + Math.floor(Math.random() * 40 - 20)));
+    const r = Math.min(255, Math.max(0, colorPromedio.r + Math.floor(Math.random() * 60 - 30)));
+    const g = Math.min(255, Math.max(0, colorPromedio.g + Math.floor(Math.random() * 60 - 30)));
+    const b = Math.min(255, Math.max(0, colorPromedio.b + Math.floor(Math.random() * 60 - 30)));
+
     return `rgb(${r}, ${g}, ${b})`;
 }
