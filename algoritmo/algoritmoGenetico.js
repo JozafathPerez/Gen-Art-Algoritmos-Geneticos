@@ -53,7 +53,7 @@ export async function iniciarAlgoritmoGenetico() {
 
         dibujarFiguras(poblacion.individuos);
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     detenerTemporizador();
