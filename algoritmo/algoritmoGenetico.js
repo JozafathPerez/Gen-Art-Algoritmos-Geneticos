@@ -52,6 +52,8 @@ export function iniciarAlgoritmoGenetico() {
         actualizarTemporizador(generacion);
 
         dibujarFiguras(poblacion.individuos);
+
+        await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     detenerTemporizador();
