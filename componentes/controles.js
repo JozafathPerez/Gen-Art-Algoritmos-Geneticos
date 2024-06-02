@@ -20,8 +20,6 @@ export function inicializarControles() {
 }
 
 function cargarImagen(archivo) {
-    //console.log("aa");
-    //const archivo = evento.target.files[0];
     limpiarGrafico();
 
     const lector = new FileReader();
