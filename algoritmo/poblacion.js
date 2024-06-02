@@ -1,4 +1,6 @@
-import { Individuo, obtenerColorPromedio, ajustarColor} from './individuo.js';
+// poblacion.js
+
+import { Individuo, obtenerColorPromedio, ajustarColor } from './individuo.js';
 
 export class Poblacion {
     constructor(tamano, imagenData) {
@@ -13,16 +15,26 @@ export class Poblacion {
     }
 
     seleccionar(tasaSeleccion) {
-        this.individuos.sort((a, b) => b.fitness - a.fitness);
-        const cantidadSeleccion = Math.round(this.individuos.length * tasaSeleccion);
-        return this.individuos.slice(0, cantidadSeleccion);
+        // Selección por torneo
+        const seleccionados = [];
+        const tamañoTorneo = 5;
+        for (let i = 0; i < this.individuos.length * tasaSeleccion; i++) {
+            const torneo = [];
+            for (let j = 0; j < tamañoTorneo; j++) {
+                const randomIndex = Math.floor(Math.random() * this.individuos.length);
+                torneo.push(this.individuos[randomIndex]);
+            }
+            torneo.sort((a, b) => b.fitness - a.fitness);
+            seleccionados.push(torneo[0]);
+        }
+        return seleccionados;
     }
-    
+
     cruzar(seleccionados, tasaCruce) {
         const descendencia = [];
         const cantidadCruce = Math.round(seleccionados.length * tasaCruce);
         for (let i = 0; i < cantidadCruce; i++) {
-            const padre = seleccionados[Math.floor(Math.random() * seleccionados.length)];
+            const padre = seleccionados[i % seleccionados.length];
             const madre = seleccionados[Math.floor(Math.random() * seleccionados.length)];
             const hijo = new Individuo(
                 padre.tipo,
@@ -35,19 +47,21 @@ export class Poblacion {
         }
         return descendencia;
     }
- 
+
     mutar(descendencia, tasaMutacion) {
         descendencia.forEach(individuo => {
             if (Math.random() < tasaMutacion) {
+                // Asegurar mutaciones significativas pero no destructivas
+                individuo.x += Math.random() * 20 - 10;
+                individuo.y += Math.random() * 20 - 10;
                 individuo.tamano += Math.random() * 10 - 5;
-                const colorPromedio = obtenerColorPromedio({
+                individuo.color = ajustarColor(obtenerColorPromedio({
                     data: [
-                        parseInt(individuo.color.match(/\d+/g)[0], 10), 
-                        parseInt(individuo.color.match(/\d+/g)[1], 10), 
-                        parseInt(individuo.color.match(/\d+/g)[2], 10)
+                        parseInt(individuo.color.slice(1, 3), 16),
+                        parseInt(individuo.color.slice(3, 5), 16),
+                        parseInt(individuo.color.slice(5, 7), 16)
                     ]
-                });
-                individuo.color = ajustarColor(colorPromedio);
+                }));
             }
         });
     }
@@ -56,7 +70,7 @@ export class Poblacion {
         this.individuos.sort((a, b) => b.fitness - a.fitness);
         const cantidadReemplazo = Math.min(this.individuos.length, descendencia.length);
         for (let i = 0; i < cantidadReemplazo; i++) {
-            this.individuos[i] = descendencia[i];
+            this.individuos[this.individuos.length - 1 - i] = descendencia[i];
         }
     }
 
@@ -80,12 +94,8 @@ export class Poblacion {
 }
 
 function mezclarColores(color1, color2) {
-    const color1Values = color1.match(/\d+/g).map(Number);
-    const color2Values = color2.match(/\d+/g).map(Number);
-
-    const r = Math.floor((color1Values[0] + color2Values[0]) / 2);
-    const g = Math.floor((color1Values[1] + color2Values[1]) / 2);
-    const b = Math.floor((color1Values[2] + color2Values[2]) / 2);
-
+    const r = Math.floor((parseInt(color1.slice(1, 3), 16) + parseInt(color2.slice(1, 3), 16)) / 2);
+    const g = Math.floor((parseInt(color1.slice(3, 5), 16) + parseInt(color2.slice(3, 5), 16)) / 2);
+    const b = Math.floor((parseInt(color1.slice(5, 7), 16) + parseInt(color2.slice(5, 7), 16)) / 2);
     return `rgb(${r}, ${g}, ${b})`;
 }

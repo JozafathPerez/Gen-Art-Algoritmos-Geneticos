@@ -5,7 +5,7 @@ import { actualizarGrafico } from '../componentes/grafico.js';
 import { actualizarTemporizador, detenerTemporizador } from '../componentes/temporizador.js';
 import { dibujarFiguras, obtenerImagenData } from '../componentes/lienzo.js';
 
-export function iniciarAlgoritmoGenetico() {
+export async function iniciarAlgoritmoGenetico() {
     const generaciones = parseInt(document.getElementById('generaciones').value);
     const tamanoPoblacion = parseInt(document.getElementById('tamanoPoblacion').value);
     const tasaSeleccion = parseInt(document.getElementById('seleccion').value) / 100;
@@ -42,7 +42,7 @@ export function iniciarAlgoritmoGenetico() {
         poblacion.evaluar(imagenData);
         const seleccionados = poblacion.seleccionar(tasaSeleccion);
         const descendencia = poblacion.cruzar(seleccionados, tasaCruce);
-        poblacion.mutar(descendencia, tasaMutacion);
+        poblacion.mutar(descendencia, tasaMutacion,imagenData);
         poblacion.reemplazar(descendencia);
 
         const fitnessPromedio = poblacion.calcularFitnessPromedio();
@@ -53,7 +53,7 @@ export function iniciarAlgoritmoGenetico() {
 
         dibujarFiguras(poblacion.individuos);
 
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     detenerTemporizador();

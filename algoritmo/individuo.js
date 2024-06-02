@@ -1,3 +1,5 @@
+// individuo.js
+
 export class Individuo {
     constructor(tipo, x, y, tamano, color) {
         this.tipo = tipo;
@@ -6,7 +8,7 @@ export class Individuo {
         this.tamano = tamano;
         this.color = color;
         this.fitness = 0;
-    } 
+    }
 
     calcularFitness(imagenData) {
         const lienzoGenetico = document.createElement('canvas').getContext('2d');
@@ -41,14 +43,15 @@ export class Individuo {
         const individuoData = lienzoGenetico.getImageData(0, 0, lienzoGenetico.canvas.width, lienzoGenetico.canvas.height).data;
         let diff = 0;
         for (let i = 0; i < imagenData.data.length; i += 4) {
-            diff += Math.abs(imagenData.data[i] - individuoData[i]);       // R
-            diff += Math.abs(imagenData.data[i + 1] - individuoData[i + 1]); // G
-            diff += Math.abs(imagenData.data[i + 2] - individuoData[i + 2]); // B
+            const rDiff = imagenData.data[i] - individuoData[i];
+            const gDiff = imagenData.data[i + 1] - individuoData[i + 1];
+            const bDiff = imagenData.data[i + 2] - individuoData[i + 2];
+            diff += Math.abs(rDiff) + Math.abs(gDiff) + Math.abs(bDiff);
         }
 
-        const maxDiff = 255 * imagenData.data.length / 4 * 3;
+        const maxDiff = 255 * 3 * (imagenData.data.length / 4);
         const normalizedDiff = diff / maxDiff;
-        this.fitness = 1 / (normalizedDiff + 1);
+        this.fitness = 1 - normalizedDiff;
     }
 
     static crearAleatorio(imagenData) {
@@ -58,33 +61,43 @@ export class Individuo {
         const y = Math.random() * imagenData.height;
         const tamano = Math.random() * 50 + 20;
 
-        // Obtener color promedio de la imagen para iniciar los individuos con colores más cercanos
-        const promedioColor = obtenerColorPromedio(imagenData);
-        const color = ajustarColor(promedioColor);
+        const color = obtenerColorAleatorioDeImagen(imagenData);
 
         return new Individuo(tipoAleatorio, x, y, tamano, color);
     }
 }
 
-export function obtenerColorPromedio(imagenData) {
-    let totalR = 0, totalG = 0, totalB = 0, totalPixels = imagenData.data.length / 4;
-    for (let i = 0; i < imagenData.data.length; i += 4) {
-        totalR += imagenData.data[i];
-        totalG += imagenData.data[i + 1];
-        totalB += imagenData.data[i + 2];
+function obtenerColorAleatorioDeImagen(imagenData) {
+    const index = Math.floor(Math.random() * (imagenData.data.length / 4)) * 4;
+    const r = imagenData.data[index];
+    const g = imagenData.data[index + 1];
+    const b = imagenData.data[index + 2];
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+export function obtenerColorPromedio(imagenData, x, y, tamano) {
+    const startX = Math.max(0, Math.floor(x - tamano / 2));
+    const startY = Math.max(0, Math.floor(y - tamano / 2));
+    const endX = Math.min(imagenData.width, Math.floor(x + tamano / 2));
+    const endY = Math.min(imagenData.height, Math.floor(y + tamano / 2));
+    let totalR = 0, totalG = 0, totalB = 0, count = 0;
+
+    for (let i = startX; i < endX; i++) {
+        for (let j = startY; j < endY; j++) {
+            const index = (i + j * imagenData.width) * 4;
+            totalR += imagenData.data[index];
+            totalG += imagenData.data[index + 1];
+            totalB += imagenData.data[index + 2];
+            count++;
+        }
     }
 
-    return {
-        r: Math.floor(totalR / totalPixels),
-        g: Math.floor(totalG / totalPixels),
-        b: Math.floor(totalB / totalPixels)
-    };
+    return [totalR / count, totalG / count, totalB / count];
 }
 
 export function ajustarColor(colorPromedio) {
-    const r = Math.min(255, Math.max(0, colorPromedio.r + Math.floor(Math.random() * 60 - 30)));
-    const g = Math.min(255, Math.max(0, colorPromedio.g + Math.floor(Math.random() * 60 - 30)));
-    const b = Math.min(255, Math.max(0, colorPromedio.b + Math.floor(Math.random() * 60 - 30)));
-
+    const r = Math.min(255, Math.max(0, colorPromedio.r + Math.floor(Math.random() * 40 - 20)));
+    const g = Math.min(255, Math.max(0, colorPromedio.g + Math.floor(Math.random() * 40 - 20)));
+    const b = Math.min(255, Math.max(0, colorPromedio.b + Math.floor(Math.random() * 40 - 20)));
     return `rgb(${r}, ${g}, ${b})`;
 }
